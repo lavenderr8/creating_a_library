@@ -3,10 +3,7 @@ def book_list_view(library):
         print("В библиотеке нет книг.")
         return
 
-    else:
-        print("Список книг в библиотеке:")
-        for book_title in library.keys():
-            print(f"{book_title}")
+    print("Список книг в библиотеке:\n" + "\n".join(library))
 
 
 library = {
