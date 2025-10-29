@@ -34,6 +34,19 @@ def remove_book(library, title):
     print(f"Книга '{title}' успешно удалена из библиотеки.\n")
 
 
+def issue_book(library, title):
+    if title not in library:
+        print(f"Книга '{title}' не найдена в библиотеке.\n")
+        return
+
+    if title in library and library[title]['Наличие'] is False:
+        print(f"Невозможно выдать книгу '{title}', так как её нет в наличии.\n")
+        return
+
+    library[title]['Наличие'] = False
+    print(f"\nКнига '{title}' выдана.\n")
+
+
 library = {
     "Грозовой перевал": {
         "Автор": "Эмили Бронте",
@@ -76,3 +89,6 @@ add_book(library, "Божественная комедия", "Данте Али�
 book_list_view(library)
 remove_book(library, "Собор Парижской Богоматери")
 book_list_view(library)
+issue_book(library, "Джейн Эйр")
+issue_book(library, "Оно")
+issue_book(library, "Тихий Дон")
