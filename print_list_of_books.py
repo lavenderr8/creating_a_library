@@ -60,6 +60,18 @@ def return_book(library, title):
     print(f"\nКнига '{title}' снова в наличии.\n")
 
 
+def find_book(library, title):
+    if title not in library:
+        print(f"Книги '{title}' не найдено в этой библиотеке.\n")
+        return
+    book = library[title]
+    print(f"\nИнформация о книге '{title}':",
+          f"Автор: {book['Автор']};",
+          f"Год издания: {book['Год издания']};",
+          f"Наличие: {'в наличии' if book['Наличие'] else 'нет в наличии'}.",
+          sep="\n", end="\n\n")
+
+
 library = {
     "Грозовой перевал": {
         "Автор": "Эмили Бронте",
@@ -108,3 +120,5 @@ issue_book(library, "Тихий Дон")
 return_book(library, "Письма Баламута")
 return_book(library, "Убийственное вязание")
 return_book(library, "Джейн Эйр")
+find_book(library, "Письма Баламута")
+find_book(library, "Лаванда и старинные кружева")
