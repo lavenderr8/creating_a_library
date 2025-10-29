@@ -47,6 +47,19 @@ def issue_book(library, title):
     print(f"\nКнига '{title}' выдана.\n")
 
 
+def return_book(library, title):
+    if title not in library:
+        print(f"Книга '{title}' не принадлежала этой библиотеке.\n")
+        return
+
+    if library[title]['Наличие'] is True:
+        print(f"Книга '{title}' уже находится в библиотеке.\n")
+        return
+
+    library[title]['Наличие'] = True
+    print(f"\nКнига '{title}' снова в наличии.\n")
+
+
 library = {
     "Грозовой перевал": {
         "Автор": "Эмили Бронте",
@@ -92,3 +105,6 @@ book_list_view(library)
 issue_book(library, "Джейн Эйр")
 issue_book(library, "Оно")
 issue_book(library, "Тихий Дон")
+return_book(library, "Письма Баламута")
+return_book(library, "Убийственное вязание")
+return_book(library, "Джейн Эйр")
