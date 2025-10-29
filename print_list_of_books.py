@@ -21,15 +21,17 @@ def add_book(library, title, author, year):
 
 
 def remove_book(library, title):
-    if title in library:
-        delete_or_not = input(f"Вы точно хотите удалить книгу '{title}'? (да/нет): ").lower()
-        if delete_or_not == "да":
-            del library[title]
-            print(f"Книга '{title}' успешно удалена из библиотеки.\n")
-        else:
-            print("Удаление отменено.\n")
-    else:
+    if title not in library:
         print(f"Книга '{title}' не найдена в библиотеке.\n")
+        return
+
+    delete_or_not = input(f"Вы точно хотите удалить книгу '{title}'? (да/нет): ").lower()
+    if delete_or_not != "да":
+        print("Удаление отменено.\n")
+        return
+
+    del library[title]
+    print(f"Книга '{title}' успешно удалена из библиотеки.\n")
 
 
 library = {
