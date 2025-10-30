@@ -3,7 +3,7 @@ def book_list_view(library):
         print(f"В библиотеке нет книг.\n")
         return
 
-    print("Список книг в библиотеке:\n" + "\n".join(library))
+    print("Список книг в библиотеке:\n" + "\n".join(library) + "\n")
 
 
 def add_book(library, title, author, year):
@@ -64,12 +64,62 @@ def find_book(library, title):
     if title not in library:
         print(f"Книги '{title}' не найдено в этой библиотеке.\n")
         return
+
     book = library[title]
+    availability = book['Наличие']
+
+    if availability is None:
+        status = "Книга в библиотеке, но её статус не определён"
+    elif availability is False:
+        status = "Нет в наличии"
+    else:
+        status = "Есть в наличии"
+
     print(f"\nИнформация о книге '{title}':",
           f"Автор: {book['Автор']};",
           f"Год издания: {book['Год издания']};",
-          f"Наличие: {'в наличии' if book['Наличие'] else 'нет в наличии'}.",
+          f"Наличие: {status}.",
           sep="\n", end="\n\n")
+
+
+def custom_menu(library):
+    menu_selection = {
+        1: ("Просмотреть библиотеку.", book_list_view),
+        2: ("Добавить книгу.", add_book),
+        3: ("Удалить книгу.", remove_book),
+        4: ("Выдать книгу.", issue_book),
+        5: ("Вернуть книгу.", return_book),
+        6: ("Получить информацию о книге.", find_book),
+    }
+
+    while True:
+        print("\nМеню:")
+
+        for number, (description, _) in menu_selection.items():
+            print(f"{number}. {description}")
+        print("0. Выйти.\n")
+
+        select_action = input("Выберите пункт из меню: ")
+
+        if select_action == "0":
+            print("\nВыход из программы.")
+            break
+
+        if not int(select_action) in menu_selection:
+            print("Некорректный ввод. Введиде номер пункта повторно.")
+            continue
+
+        _, action = menu_selection[int(select_action)]
+        if action == add_book:
+            title = input("Введите название книги: ")
+            author = input("Введите имя автора: ")
+            year = input("Введите год издания: ")
+            action(library, title, author, int(year))
+        elif action in (remove_book, issue_book, return_book, find_book):
+            title = input("Введите название книги: ")
+            action(library, title)
+        else:
+            action(library)
 
 
 library = {
@@ -94,7 +144,7 @@ library = {
         "Наличие": False
     },
     "Собор Парижской Богоматери": {
-        "Автор": "Викор Гюго",
+        "Автор": "Виктор Гюго",
         "Год издания": 1831,
         "Наличие": True
     },
@@ -105,20 +155,5 @@ library = {
     },
 }
 
-empty_library = {}
-
-book_list_view(empty_library)
-book_list_view(library)
-add_book(library, "Джейн Эйр", "Шарлотта Бронте", 1847)
-add_book(library, "Божественная комедия", "Данте Алигьери", 1472)
-book_list_view(library)
-remove_book(library, "Собор Парижской Богоматери")
-book_list_view(library)
-issue_book(library, "Джейн Эйр")
-issue_book(library, "Оно")
-issue_book(library, "Тихий Дон")
-return_book(library, "Письма Баламута")
-return_book(library, "Убийственное вязание")
-return_book(library, "Джейн Эйр")
-find_book(library, "Письма Баламута")
-find_book(library, "Лаванда и старинные кружева")
+if __name__ == "__main__":
+    custom_menu(library)
